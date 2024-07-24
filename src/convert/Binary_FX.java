@@ -11,7 +11,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 
 
 public class Binary_FX extends Application {
@@ -63,10 +65,16 @@ public class Binary_FX extends Application {
 		cb1.setTranslateX(3);
 		cb1.setTranslateY(82);
 		
+		Text errorMsg = new Text("Please choose a valid option");
+		errorMsg.setTranslateX(3);
+		errorMsg.setTranslateY(120);
+		errorMsg.setVisible(false);
+		
 		Button nxtBtn = new Button("Next");
 		nxtBtn.setTranslateX(305);
 		nxtBtn.setTranslateY(120);
 		
+		try {
 		nxtBtn.setOnAction(new EventHandler <ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
@@ -74,17 +82,24 @@ public class Binary_FX extends Application {
 					t.setRoot(deciPage(t));
 				}else if(cb1.getValue().matches("2")) {
 					t.setRoot(binPage(t));
+				}else if(cb1.getValue() == null){
+					errorMsg.setVisible(true);
 				}
-				
 			}
 		});
+		}catch (Exception e) {
+			errorMsg.setVisible(true);
+		}
 		
 		Pane openPage = new Pane();
-		openPage.getChildren().addAll(optionLbl,opt1Lbl,opt2,line,cb1,nxtBtn);
+		openPage.getChildren().addAll(optionLbl,opt1Lbl,opt2,line,cb1,nxtBtn,errorMsg);
 		return openPage;
 	}
 	
+	
 	public Pane deciPage(Scene t) {
+		t.getWindow().setHeight(280);
+		
 		Label optionLbl = new Label("Please choose an option");
 		optionLbl.setFont(titleFont);
 		optionLbl.setTranslateX(3);
@@ -98,9 +113,45 @@ public class Binary_FX extends Application {
 		line.setStroke(Color.RED);
 		line.setStrokeWidth(5);
 		
+		Label deciopt1Lbl = new Label("1)Decimal to Binary");
+		deciopt1Lbl.setFont(txtFont);
+		deciopt1Lbl.setTranslateX(3);
+		deciopt1Lbl.setTranslateY(35);
+		
+		Label deciopt2Lbl = new Label("2)Decimal to Hexadecimal");
+		deciopt2Lbl.setFont(txtFont);
+		deciopt2Lbl.setTranslateX(3);
+		deciopt2Lbl.setTranslateY(56);
+		
+		Label deciopt3Lbl = new Label("3)Decimal to Octal");
+		deciopt3Lbl.setFont(txtFont);
+		deciopt3Lbl.setTranslateX(3);
+		deciopt3Lbl.setTranslateY(77);
+		
+		ChoiceBox<String> deciCB = new ChoiceBox<String>();
+		deciCB.getItems().add("1");
+		deciCB.getItems().add("2");
+		deciCB.getItems().add("3");
+		deciCB.setTranslateX(3);
+		deciCB.setTranslateY(98);
+		
+		Button backBtn = new Button("Back");
+		backBtn.setTranslateX(3);
+		backBtn.setTranslateY(213);
+		
+		backBtn.setOnAction(new EventHandler <ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				t.setRoot(openPage(t));
+			}
+		});
+		
+		Button nxtBtn = new Button("Next");
+		nxtBtn.setTranslateX(305);
+		nxtBtn.setTranslateY(213);
 		
 		Pane deciPane = new Pane();
-		deciPane.getChildren().addAll(optionLbl,line);
+		deciPane.getChildren().addAll(optionLbl,line,deciopt1Lbl,deciopt2Lbl,deciopt3Lbl,deciCB,backBtn,nxtBtn);
 		return deciPane;
 	}
 	
